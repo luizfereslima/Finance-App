@@ -1,0 +1,269 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-11-02T00:00:00.000Z",
+  "__export_source": "backend-financas",
+  "resources": [
+    {
+      "_id": "wrk_financas",
+      "parentId": null,
+      "name": "Backend Finanças",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_financas_base",
+      "parentId": "wrk_financas",
+      "name": "Base Environment",
+      "data": {},
+      "_type": "environment"
+    },
+    {
+      "_id": "env_financas_local",
+      "parentId": "wrk_financas",
+      "name": "Local",
+      "data": {
+        "base_url": "http://localhost:3000",
+        "token": "",
+        "category_id": "",
+        "transaction_id": ""
+      },
+      "_type": "environment"
+    },
+    {
+      "_id": "grp_auth",
+      "parentId": "wrk_financas",
+      "name": "Autenticação",
+      "_type": "request_group"
+    },
+    {
+      "_id": "grp_system",
+      "parentId": "wrk_financas",
+      "name": "Sistema",
+      "_type": "request_group"
+    },
+    {
+      "_id": "grp_users",
+      "parentId": "wrk_financas",
+      "name": "Usuários",
+      "_type": "request_group"
+    },
+    {
+      "_id": "grp_categories",
+      "parentId": "wrk_financas",
+      "name": "Categorias",
+      "_type": "request_group"
+    },
+    {
+      "_id": "grp_transactions",
+      "parentId": "wrk_financas",
+      "name": "Transações",
+      "_type": "request_group"
+    },
+    {
+      "_id": "grp_summary",
+      "parentId": "wrk_financas",
+      "name": "Resumo",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_register",
+      "parentId": "grp_auth",
+      "name": "Registrar usuário",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/register",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Maria Silva\",\n  \"email\": \"maria@example.com\",\n  \"password\": \"senha1234\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "_type": "request"
+    },
+    {
+      "_id": "req_login",
+      "parentId": "grp_auth",
+      "name": "Login",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"demo@financas.local\",\n  \"password\": \"senha1234\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "_type": "request"
+    },
+    {
+      "_id": "req_health",
+      "parentId": "grp_system",
+      "name": "Health check",
+      "method": "GET",
+      "url": "{{ _.base_url }}/health",
+      "_type": "request"
+    },
+    {
+      "_id": "req_me",
+      "parentId": "grp_users",
+      "name": "Obter usuário autenticado",
+      "method": "GET",
+      "url": "{{ _.base_url }}/users/me",
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "_type": "request"
+    },
+    {
+      "_id": "req_categories_list",
+      "parentId": "grp_categories",
+      "name": "Listar categorias",
+      "method": "GET",
+      "url": "{{ _.base_url }}/categories",
+      "parameters": [{ "name": "type", "value": "EXPENSE", "disabled": true }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "_type": "request"
+    },
+    {
+      "_id": "req_categories_create",
+      "parentId": "grp_categories",
+      "name": "Criar categoria",
+      "method": "POST",
+      "url": "{{ _.base_url }}/categories",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Lazer\",\n  \"type\": \"EXPENSE\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "_type": "request"
+    },
+    {
+      "_id": "req_categories_update",
+      "parentId": "grp_categories",
+      "name": "Atualizar categoria",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/categories/{{ _.category_id }}",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Mercado\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "_type": "request"
+    },
+    {
+      "_id": "req_categories_delete",
+      "parentId": "grp_categories",
+      "name": "Excluir categoria",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/categories/{{ _.category_id }}",
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "_type": "request"
+    },
+    {
+      "_id": "req_transactions_create",
+      "parentId": "grp_transactions",
+      "name": "Criar transação",
+      "method": "POST",
+      "url": "{{ _.base_url }}/transactions",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"type\": \"EXPENSE\",\n  \"amountCents\": 12590,\n  \"description\": \"Compra do mês\",\n  \"date\": \"2026-10-29T12:00:00.000Z\",\n  \"categoryId\": \"{{ _.category_id }}\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "_type": "request"
+    },
+    {
+      "_id": "req_transactions_list",
+      "parentId": "grp_transactions",
+      "name": "Listar transações",
+      "method": "GET",
+      "url": "{{ _.base_url }}/transactions",
+      "parameters": [
+        { "name": "type", "value": "EXPENSE", "disabled": true },
+        {
+          "name": "categoryId",
+          "value": "{{ _.category_id }}",
+          "disabled": true
+        },
+        {
+          "name": "from",
+          "value": "2026-10-01T00:00:00.000Z",
+          "disabled": true
+        },
+        { "name": "to", "value": "2026-10-31T23:59:59.999Z", "disabled": true },
+        { "name": "search", "value": "mercado", "disabled": true },
+        { "name": "page", "value": "1" },
+        { "name": "limit", "value": "20" },
+        { "name": "sort", "value": "date" },
+        { "name": "order", "value": "desc" }
+      ],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "_type": "request"
+    },
+    {
+      "_id": "req_transactions_get",
+      "parentId": "grp_transactions",
+      "name": "Consultar transação",
+      "method": "GET",
+      "url": "{{ _.base_url }}/transactions/{{ _.transaction_id }}",
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "_type": "request"
+    },
+    {
+      "_id": "req_transactions_update",
+      "parentId": "grp_transactions",
+      "name": "Atualizar transação",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/transactions/{{ _.transaction_id }}",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"amountCents\": 13990,\n  \"description\": \"Compra do mês atualizada\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "_type": "request"
+    },
+    {
+      "_id": "req_transactions_delete",
+      "parentId": "grp_transactions",
+      "name": "Excluir transação",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/transactions/{{ _.transaction_id }}",
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "_type": "request"
+    },
+    {
+      "_id": "req_summary",
+      "parentId": "grp_summary",
+      "name": "Resumo financeiro",
+      "method": "GET",
+      "url": "{{ _.base_url }}/summary",
+      "parameters": [
+        {
+          "name": "from",
+          "value": "2026-10-01T00:00:00.000Z",
+          "disabled": true
+        },
+        { "name": "to", "value": "2026-10-31T23:59:59.999Z", "disabled": true }
+      ],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "_type": "request"
+    },
+    {
+      "_id": "req_summary_category",
+      "parentId": "grp_summary",
+      "name": "Resumo por categoria",
+      "method": "GET",
+      "url": "{{ _.base_url }}/summary/by-category",
+      "parameters": [
+        { "name": "type", "value": "EXPENSE" },
+        {
+          "name": "from",
+          "value": "2026-10-01T00:00:00.000Z",
+          "disabled": true
+        },
+        { "name": "to", "value": "2026-10-31T23:59:59.999Z", "disabled": true }
+      ],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "_type": "request"
+    }
+  ]
+}

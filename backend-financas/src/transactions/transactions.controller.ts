@@ -1,0 +1,7 @@
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, Query } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CurrentUser } from '../auth/decorators';
+import { CreateTransactionDto, ListQueryDto, UpdateTransactionDto } from '../dtos';
+import { TransactionsService } from './transactions.service';
+@ApiTags('Transações') @ApiBearerAuth() @Controller('transactions')
+export class TransactionsController { constructor(private service: TransactionsService) {} @Post() @ApiOperation({ summary: 'Criar transação' }) create(@CurrentUser() u: any, @Body() dto: CreateTransactionDto) { return this.service.create(u.userId, dto); } @Get() @ApiOperation({ summary: 'Listar transações com filtros e paginação' }) list(@CurrentUser() u: any, @Query() query: ListQueryDto) { return this.service.list(u.userId, query); } @Get(':id') @ApiOperation({ summary: 'Consultar transação' }) findOne(@CurrentUser() u: any, @Param('id') id: string) { return this.service.findOne(u.userId, id); } @Patch(':id') @ApiOperation({ summary: 'Atualizar transação' }) update(@CurrentUser() u: any, @Param('id') id: string, @Body() dto: UpdateTransactionDto) { return this.service.update(u.userId, id, dto); } @Delete(':id') @HttpCode(204) @ApiOperation({ summary: 'Excluir transação' }) async remove(@CurrentUser() u: any, @Param('id') id: string) { await this.service.remove(u.userId, id); } }
