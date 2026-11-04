@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
+import { clearOfflineApiCache } from '@/utils/offline-cache'
 import {
   getProfile,
   clearClientCookies,
@@ -51,6 +52,7 @@ export function useUserController() {
       // O redirecionamento e a limpeza local devem ocorrer mesmo sem resposta da API.
     } finally {
       clearClientCookies()
+      await clearOfflineApiCache()
       queryClient.clear()
 
       toast.success('Sessão encerrada', {
