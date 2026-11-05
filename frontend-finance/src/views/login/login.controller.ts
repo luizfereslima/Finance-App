@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import { login, type LoginResponse } from "./login.service";
 import router from "@/router";
+import { startOfflineCacheSession } from "@/utils/offline-cache";
 
 export function useLoginController() {
   const email = ref("");
@@ -19,6 +20,7 @@ export function useLoginController() {
       });
 
       if (response.status >= 200 && response.status < 300) {
+        await startOfflineCacheSession();
         await router.push({ name: "home" });
       }
     } catch (error) {
