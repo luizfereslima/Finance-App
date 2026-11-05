@@ -1,24 +1,228 @@
 <template>
-  <main class="flex min-h-screen">
-    <section
-      class="hidden w-1/2 flex-col justify-between bg-gray-400/5 px-12 py-10 md:flex"
-      aria-label="Apresentação do aplicativo"
-    >
-      <div class="flex items-center gap-1.5">
-        <img src="@/assets/Box.webp" alt="" class="size-7 object-contain" />
-        <h1 class="text-xl font-bold text-white">Meu Bolso</h1>
-      </div>
+  <main class="auth-shell">
+    <section class="auth-brand" aria-label="Sobre o Meu Bolso">
+      <RouterLink :to="{ name: 'login' }" class="brand-mark" aria-label="Meu Bolso, início">
+        <span class="brand-icon" aria-hidden="true"><WalletCards :size="20" /></span>
+        <span>meu bolso</span>
+      </RouterLink>
 
-      <div class="flex max-w-lg flex-col gap-4">
-        <p class="text-3xl font-bold text-white">Suas entradas e despesas, em um só lugar.</p>
-        <p class="text-sm leading-6 text-muted-foreground">
-          Registre, categorize e acompanhe o saldo do mês em qualquer dispositivo, mesmo offline.
+      <div class="brand-copy">
+        <p class="brand-eyebrow">Finanças mais leves</p>
+        <h1>Seu dinheiro,<br />no seu ritmo.</h1>
+        <p class="brand-description">
+          Organize suas entradas e despesas e acompanhe o que importa em um só lugar.
         </p>
       </div>
+
+      <div class="brand-orbit" aria-hidden="true">
+        <div class="orbit-ring orbit-ring-one"></div>
+        <div class="orbit-ring orbit-ring-two"></div>
+        <div class="orbit-core"><WalletCards :size="38" /></div>
+        <span class="orbit-dot orbit-dot-one"></span>
+        <span class="orbit-dot orbit-dot-two"></span>
+      </div>
+      <p class="brand-footer">Clareza para cuidar bem do seu dinheiro.</p>
     </section>
 
-    <section class="flex w-full items-center justify-center px-6 py-10 md:w-1/2">
+    <section class="auth-content">
+      <div class="mobile-intro">
+        <RouterLink :to="{ name: 'login' }" class="brand-mark mobile-brand" aria-label="Meu Bolso, início">
+          <span class="brand-icon" aria-hidden="true"><WalletCards :size="18" /></span>
+          <span>meu bolso</span>
+        </RouterLink>
+        <p class="mobile-eyebrow">Finanças mais leves</p>
+        <h1>Seu dinheiro,<br /><span>no seu ritmo.</span></h1>
+        <p>Organize sua vida financeira em um só lugar.</p>
+      </div>
       <slot />
+      <p class="auth-privacy">Seus dados financeiros ficam protegidos.</p>
     </section>
   </main>
 </template>
+
+<script setup lang="ts">
+import { WalletCards } from '@lucide/vue';
+</script>
+
+<style>
+.auth-shell {
+  --auth-sand: #e8dcc7;
+  --auth-sage: #8b9d83;
+  --auth-moss: #414b36;
+  --auth-clay: #b08b6e;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  background: var(--auth-sand);
+  color: #30372b;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+}
+
+.auth-brand {
+  position: relative;
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  padding: clamp(2rem, 5vw, 4.5rem);
+  background: var(--auth-moss);
+  color: var(--auth-sand);
+}
+
+.brand-mark {
+  z-index: 1;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.7rem;
+  color: inherit;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+
+.brand-icon {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border-radius: 0.9rem;
+  background: var(--auth-sage);
+  color: #263022;
+}
+
+.brand-copy {
+  z-index: 1;
+  max-width: 34rem;
+  margin: auto 0;
+  padding: 3rem 0;
+}
+
+.brand-eyebrow,
+.mobile-eyebrow {
+  margin: 0 0 1rem;
+  color: var(--auth-sage);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.brand-copy h1,
+.mobile-intro h1 {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(3.3rem, 6vw, 5.6rem);
+  font-weight: 400;
+  letter-spacing: -0.07em;
+  line-height: 0.98;
+}
+
+.brand-description {
+  max-width: 25rem;
+  margin: 1.5rem 0 0;
+  color: #d4d9ca;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.brand-footer {
+  z-index: 1;
+  margin: 0;
+  color: #c1cbb8;
+  font-size: 0.85rem;
+}
+
+.brand-orbit {
+  position: absolute;
+  right: -5rem;
+  bottom: 5rem;
+  width: 23rem;
+  height: 23rem;
+  opacity: 0.42;
+}
+
+.orbit-ring {
+  position: absolute;
+  inset: 1rem;
+  border: 1px solid var(--auth-sage);
+  border-radius: 50%;
+}
+
+.orbit-ring-two {
+  inset: 4rem;
+  border-color: var(--auth-clay);
+}
+
+.orbit-core {
+  position: absolute;
+  inset: 8rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #65725a;
+  color: var(--auth-sand);
+}
+
+.orbit-dot {
+  position: absolute;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: var(--auth-clay);
+}
+
+.orbit-dot-one { top: 2.5rem; left: 5rem; }
+.orbit-dot-two { right: 5rem; bottom: 2.5rem; background: var(--auth-sage); }
+
+.auth-content {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.25rem, 5vw, 4.5rem);
+}
+
+.mobile-intro { display: none; }
+.mobile-brand { display: none; }
+
+.auth-privacy {
+  margin: 1.5rem 0 0;
+  color: #6d7564;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .auth-shell { grid-template-columns: 1fr; }
+  .auth-brand { display: none; }
+  .auth-content {
+    justify-content: flex-start;
+    padding: max(1.25rem, env(safe-area-inset-top)) 1.25rem max(1.5rem, env(safe-area-inset-bottom));
+  }
+  .mobile-intro {
+    display: block;
+    width: 100%;
+    max-width: 28rem;
+    padding: 0.75rem 0 1.5rem;
+  }
+  .mobile-brand { display: inline-flex; margin-bottom: 1.2rem; color: #414b36; font-size: 1rem; }
+  .mobile-brand .brand-icon { width: 2.15rem; height: 2.15rem; background: #8b9d83; }
+  .mobile-eyebrow { margin-bottom: 0.55rem; color: #606e55; font-size: 0.68rem; }
+  .mobile-intro h1 { font-size: clamp(2.55rem, 12vw, 3.3rem); line-height: 0.98; }
+  .mobile-intro h1 span { color: #68775c; }
+  .mobile-intro > p:last-child { margin: 0.8rem 0 0; color: #606657; font-size: 0.9rem; }
+  .auth-privacy { margin-top: 1rem; font-size: 0.75rem; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .auth-content > * { animation: auth-enter 420ms ease-out both; }
+  @keyframes auth-enter {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+</style>
