@@ -56,7 +56,7 @@ function isActive(to: string) {
         <img src="@/assets/Box.webp" alt="" class="size-8 shrink-0 object-contain" />
         <div class="flex min-w-0 flex-col">
           <span class="truncate text-sm font-semibold">Meu Bolso</span>
-          <span class="truncate text-xs text-muted-foreground">Finanças pessoais</span>
+          <span class="truncate text-xs text-muted-foreground">Finanças pessoaisDDD</span>
         </div>
       </RouterLink>
     </SidebarHeader>
