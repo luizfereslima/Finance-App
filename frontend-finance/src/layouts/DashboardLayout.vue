@@ -40,7 +40,7 @@ defineProps<{
         </Breadcrumb>
       </header>
 
-      <div class="flex flex-1 flex-col gap-6 p-6">
+      <div class="flex flex-1 flex-col gap-5 p-4 sm:gap-6 sm:p-6">
         <slot />
       </div>
     </SidebarInset>
