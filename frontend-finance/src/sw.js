@@ -21,8 +21,13 @@ const EXTERNAL_STATIC_HOSTS = new Set([
 
 let apiCacheEpoch = 0;
 
-self.addEventListener("install", (event) => {
-  event.waitUntil(self.skipWaiting());
+// Uma nova versão fica em "waiting" até o usuário confirmar a atualização.
+// O app envia SKIP_WAITING (via updateSW() de virtual:pwa-register) e, após a
+// ativação, o clients.claim() abaixo dispara o recarregamento da página.
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") {
+    event.waitUntil(self.skipWaiting());
+  }
 });
 
 self.addEventListener("activate", (event) => {
@@ -160,7 +165,7 @@ async function pruneApiCache(cache, metadataCache) {
   );
   const retained = entries.filter(Boolean).sort((first, second) => first.cachedAt - second.cachedAt);
 
-  while (retained.length > maxEntries) {
+  while (retained.length > API_CACHE_MAX_ENTRIES) {
     const oldest = retained.shift();
     await cache.delete(oldest.key);
   }
