@@ -143,6 +143,8 @@ export function useHomeController() {
     setMonth,
     isSummaryLoading: summaryQuery.isPending,
     summaryError: summaryQuery.error,
+    isSummaryError: summaryQuery.isError || categorySummaryQuery.isError,
+    refetchSummary: () => Promise.all([summaryQuery.refetch(), categorySummaryQuery.refetch()]),
     isNewTransactionOpen,
     openNewTransaction,
     addTransaction,
